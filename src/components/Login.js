@@ -6,6 +6,7 @@ import {auth} from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser, removeUser } from '../utils/userSlice';
+import { NETFLIX_BACKGROUND_IMAGE, PHOTO_URL } from '../utils/constants';
 
 
 const Login = () => {
@@ -33,14 +34,14 @@ const Login = () => {
                 // Signed up 
                  const user = userCredential.user;
                 updateProfile(user, {
-                    displayName: fullName.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
+                    displayName: fullName.current.value, photoURL: {PHOTO_URL}
                     }).then(() => {
                     // Profile updated!
                    
                     console.log(user);
                     const {uid, email, displayName, photoURL} = auth;// doing it from auth, so that we get an updated version of user
                     dispatch(addUser({uid:uid,email:email,displayName:displayName, photoURL: photoURL}));
-                    navigate("/browse");
+                    // navigate("/browse");
                     // ...
                     }).catch((error) => {
                     // An error occurred
@@ -64,7 +65,7 @@ const Login = () => {
                 // Signed in 
                 const user = userCredential.user;
                 console.warn(user);
-                navigate("/browse");
+                // navigate("/browse");
 
                 // ...
             })
@@ -84,7 +85,7 @@ const Login = () => {
     <div>
         <Header/>
         <div className="absolute">
-            <img src="https://assets.nflxext.com/ffe/siteui/vlv3/150c4b42-11f6-4576-a00f-c631308b1e43/web/CA-en-20241216-TRIFECTA-perspective_291e2bbc-f0c7-437d-904b-50007c3f49f4_large.jpg" 
+            <img src={NETFLIX_BACKGROUND_IMAGE} 
             alt = "Netflix_Background_Image"
             />
         </div>
