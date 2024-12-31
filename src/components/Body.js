@@ -2,6 +2,7 @@ import React from 'react'
 import Login from './Login';
 import Browse from './Browse';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import GptSearch from './GptSearch';
 
 
 const Body = () => {
@@ -9,10 +10,12 @@ const Body = () => {
         {
             path: "/",
             element: <Login />,
-        },
-         {
+        },{
             path: "/browse",
             element: <Browse />,
+        },{
+            path: "/gpt-search",
+            element: <GptSearch />,
         }
     ]);
 
