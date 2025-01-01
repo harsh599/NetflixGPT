@@ -1,10 +1,10 @@
-import React , {useEffect} from 'react'
+import React , {useEffect, useState} from 'react'
 import { signOut } from "firebase/auth";
 import { auth } from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth";
 import {useDispatch, useSelector} from "react-redux";
-import { addUser, removeUser } from '../utils/userSlice';
+import { addUser, removeUser, updateUserLoggedIn } from '../utils/userSlice';
 import { NETFLIX_LOGO, NETFLIX_SIGNOUT_IMAGE,SUPPORTED_LANGUAGES } from '../utils/constants';
 import { toggleGptSearchView } from '../utils/gptSlice';
 import { changeLanguage } from '../utils/configSlice';
@@ -13,15 +13,19 @@ const Header = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const showGptSearch = useSelector(store => store?.gpt?.showGptSearch);
+    const isUserLoggedIn = useSelector(store => store?.user?.isUserLoggedIn);
 
-    const signOut = () => {
+    const handleSignOut = () => {
         signOut(auth).then(() => {
         // Sign-out successful.
         navigate("/");
+        dispatch(updateUserLoggedIn(true));
         }).catch((error) => {
         // An error happened.
         console.warn(error);
-        navigate("/error");
+        dispatch(updateUserLoggedIn(true));
+        
+        // navigate("/error");
         });
     }
 
@@ -54,17 +58,17 @@ const Header = () => {
          src={NETFLIX_LOGO}
          alt='Netflix_Logo'></img>
 
-        <div className="flex p-2 justify-between">
+       {isUserLoggedIn && ( <div className="flex p-2 justify-between">
             {showGptSearch && <select className="p-2 bg-gray-800 text-white my-2 rounded-lg" onChange={handleLangChange}>
                {SUPPORTED_LANGUAGES.map(lang => <option key = {lang.identifier} value = {lang.identifier}>{lang.name}</option>)} 
             </select>}
            <button className="py-0 px-4 mx-4 my-4 bg-purple-800 text-white rounded-lg" onClick={handleGptSearchClick}>{showGptSearch ? "Home" : "GPT Search"}</button>
-            <button onClick={signOut}>  <img 
-            className = "w-14 h-12"
-            src = {NETFLIX_SIGNOUT_IMAGE}
-            alt="Netflix_Sign_Out_Button"
-            /><span className="font-bold text-white">Sign Out</span></button>
-        </div>
+            <button onClick={handleSignOut}>  <img 
+                className = "w-14 h-12"
+                src = {NETFLIX_SIGNOUT_IMAGE}
+                alt="Netflix_Sign_Out_Button"
+                /><span className="font-bold text-white">Sign Out</span></button>
+        </div>)}
 
     </div>
     

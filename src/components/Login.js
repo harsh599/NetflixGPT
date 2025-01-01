@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import {auth} from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addUser, removeUser } from '../utils/userSlice';
+import { addUser, removeUser, updateUserLoggedIn } from '../utils/userSlice';
 import { NETFLIX_BACKGROUND_IMAGE, PHOTO_URL } from '../utils/constants';
 
 
@@ -39,6 +39,7 @@ const Login = () => {
                    
                     const {uid, email, displayName, photoURL} = auth;// doing it from auth, so that we get an updated version of user
                     dispatch(addUser({uid:uid,email:email,displayName:displayName, photoURL: photoURL}));
+                    
                     // navigate("/browse");
                     // ...
                     }).catch((error) => {
@@ -60,6 +61,7 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
+                dispatch(updateUserLoggedIn(true));
                 // navigate("/browse");
 
                 // ...
@@ -78,9 +80,9 @@ const Login = () => {
   return (
     <div>
         <Header/>
-        <div className="absolute">
+        <div className="absolute  ">
             <img src={NETFLIX_BACKGROUND_IMAGE} 
-            className="h-screen object-cover"
+            className=""
             alt = "Netflix_Background_Image"
             />
         </div>
