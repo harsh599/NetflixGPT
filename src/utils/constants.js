@@ -6,8 +6,10 @@ export const API_OPTIONS = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlYThmMjllZWNlMTQwNDc5MzZmNmEwYzYxYjUzNDRiNCIsIm5iZiI6MTczNTIzNDIxNy40OTMsInN1YiI6IjY3NmQ5MmE5NjJiYTMxMGZjMDEyOTdiYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iRGe_6OJXVT4_PEqwnPjJO8VwyWSaTY0S3_wL5SqcgY'
+    // Authorization: 'Bearer ' + process.env.REACT_APP_TMDB_KEY
+    Authorization: 'Bearer NULL'
   }
 };
 export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w780";
 export const SUPPORTED_LANGUAGES = [{identifier:"en", name: "English"},{identifier:"fr", name: "French"},{identifier:"spa", name: "Spanish"}];
+export const OPEN_AI_KEY = "TEST";

@@ -23,7 +23,6 @@ const Login = () => {
     }
 
     const handleOnClick = () => {
-        console.log(email.current.value, password.current.value);
         const errorMessage = checkValidateData(email.current.value,password.current.value);
         setErrorMessage(errorMessage);
         if(errorMessage)return;
@@ -38,7 +37,6 @@ const Login = () => {
                     }).then(() => {
                     // Profile updated!
                    
-                    console.log(user);
                     const {uid, email, displayName, photoURL} = auth;// doing it from auth, so that we get an updated version of user
                     dispatch(addUser({uid:uid,email:email,displayName:displayName, photoURL: photoURL}));
                     // navigate("/browse");
@@ -54,8 +52,6 @@ const Login = () => {
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log(errorCode);
-                console.log(errorMessage);
                 setErrorMessage(errorMessage);
                 // ..
             });
@@ -64,7 +60,6 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                console.warn(user);
                 // navigate("/browse");
 
                 // ...
@@ -73,9 +68,8 @@ const Login = () => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 setErrorMessage(errorMessage);
-                console.log(errorCode, errorMessage);
             });
-                    }
+        }
 
 
 
@@ -86,18 +80,19 @@ const Login = () => {
         <Header/>
         <div className="absolute">
             <img src={NETFLIX_BACKGROUND_IMAGE} 
+            className="h-screen object-cover"
             alt = "Netflix_Background_Image"
             />
         </div>
-            <form onSubmit={(e)=>e.preventDefault()} className="w-3/12 absolute p-12 bg-black my-36 mx-auto left-0 right-0 text-white bg-opacity-80">
-                 <h1 className="text-3xl font-bold py-4"> {isSignInForm ? "Sign In" : "Sign Up"}</h1>
-                {!isSignInForm && <input ref = {fullName} type = "text" placeholder = "Enter Full Name" className='p-4 my-4 w-full bg-gray-800'/>}
-                <input ref = {email} type = "text" placeholder = "Enter User Name" className='p-4 my-4 w-full bg-gray-800'/>
-                <input ref = {password} type = "password" placeholder = "Enter Password" className='p-4 my-4 w-full bg-gray-800'/>
-                <button className="p-4 my-6 bg-red-700 w-full" onClick={handleOnClick}>{isSignInForm ? "Sign In" : "Sign Up"}</button>
-                <p className="text-red-500 text-lg font-bold">{errorMessage}</p>
-                <p className="cursor-pointer" onClick = {toggleSignInForm}>{isSignInForm ? "New to Netflix? Sign Up Now" : "Already registered?Sign In Now"} </p>
-            </form>
+        <form onSubmit={(e)=>e.preventDefault()} className="w-full md:w-3/12 absolute p-12 bg-black my-36 mx-auto left-0 right-0 text-white bg-opacity-80">
+                <h1 className="text-3xl font-bold py-4"> {isSignInForm ? "Sign In" : "Sign Up"}</h1>
+            {!isSignInForm && <input ref = {fullName} type = "text" placeholder = "Enter Full Name" className='p-4 my-4 w-full bg-gray-800'/>}
+            <input ref = {email} type = "text" placeholder = "Enter User Name" className='p-4 my-4 w-full bg-gray-800'/>
+            <input ref = {password} type = "password" placeholder = "Enter Password" className='p-4 my-4 w-full bg-gray-800'/>
+            <button className="p-4 my-6 bg-red-700 w-full" onClick={handleOnClick}>{isSignInForm ? "Sign In" : "Sign Up"}</button>
+            <p className="text-red-500 text-lg font-bold">{errorMessage}</p>
+            <p className="cursor-pointer" onClick = {toggleSignInForm}>{isSignInForm ? "New to Netflix? Sign Up Now" : "Already registered?Sign In Now"} </p>
+        </form>
     </div>
   )
 }
